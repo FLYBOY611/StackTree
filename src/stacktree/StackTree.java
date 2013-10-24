@@ -45,6 +45,7 @@ public class StackTree {
     Cedar.root = rooty;
     
     System.out.println(Cedar.toString());
+    System.out.println(Cedar.size(Cedar.root));
         /*
         String entry = "0";
 
