@@ -23,6 +23,29 @@ import java.util.Scanner;
 public class StackTree {
 
     public static void main(String[] args) {
+        
+    Node rooty = new Node("-");
+    
+    
+    Node lefty = new Node("*");
+    Node righty = new Node(2);
+    
+    Node superLefty = new Node(3);
+    Node superRighty = new Node(6);
+    
+    lefty.LeftChild = superLefty;
+    lefty.RightChild = superRighty;
+    
+    rooty.LeftChild = lefty;
+    rooty.RightChild = righty;
+    
+    System.out.println(rooty.toString());
+    
+    BinaryTree Cedar = new BinaryTree();
+    Cedar.root = rooty;
+    
+    System.out.println(Cedar.toString());
+        /*
         String entry = "0";
 
 
@@ -49,7 +72,7 @@ public class StackTree {
             }
         }
 
-
+        */
     }
 
     public static PostfixAndAnswer InfixToPost(String InfixExpression) {
