@@ -39,13 +39,19 @@ public class StackTree {
     rooty.LeftChild = lefty;
     rooty.RightChild = righty;
     
-    System.out.println(rooty.toString());
+    //System.out.println(rooty.toString());
     
     BinaryTree Cedar = new BinaryTree();
     Cedar.root = rooty;
     
+    //Check the toString
     System.out.println(Cedar.toString());
+    //Check the size
     System.out.println(Cedar.size(Cedar.root));
+    //Check the contains
+    if(Cedar.contains("2", Cedar.root) == true){
+        System.out.println("true");
+    }
         /*
         String entry = "0";
 

@@ -6,10 +6,14 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
 {
 
     
+    
     Node root;
-    BinaryTree Oak = new BinaryTree();
-
+    Node LeftChild;
+    Node RightChild;
+    
+    //We put this in for good luck
     public BinaryTree() {
+    
     }
 
 //Return a reference to the  root element
@@ -24,7 +28,7 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
     public boolean isEmpty(BinaryTree WorkTree) {
 
         //If the root is empty then the tree is empty
-        if (WorkTree.root.Element == null) {
+        if (WorkTree.root == null) {
             return true;
         } else {
             return false;
@@ -32,60 +36,75 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
     }
 
 //Returns the number of elements in this binary tree
-//I really feel like cheating and just returning the number of elements
-//in the postfix expression....
-    public int size(Node current) {
-        int NumEle = 0;
-        //Node current = GoNode;
- 
-     
-        //Just use the recursive method of moving through the tree to 
-        //count the number of elements
-
+//We need to traverse the tree with recursion to count it
+//We start at the root but don't let that fool you
+//every recursive call in the tree will be named root, so even
+//if we are three levels down it's still called "root"
+    public int size(Node root) {
         
-        //Recursive call to go down the left sides and print stuff out
-        if(current.LeftChild != null){            
-            //We need to call recursion on the LeftChild...but can't
-            //current.LeftChild.size(GoNode.LeftChild);
-            //I think this works?
-            NumEle++;
-            size(current.LeftChild);
+        //If the node is empty, return size zero
+        if(root == null){
+            return 0;
         }
-        NumEle++;
-        
-        //Recursive call to go down the right sides and print stuff out
-        if(current.RightChild != null){
-            NumEle++;
-            size(current.RightChild);
-            
+        //If it's the node and nothing else, its size one.
+        else if(root.LeftChild == null 
+                & root.RightChild == null){
+            return 1;
+        }
+        //Here it gets crazy
+        //Is there a left child? Return 1 if its a leaf or keep going 
+        //a level deeper if that node has children. Then we add one to 
+        //account for the original root note and check for the right path
+        else{
+            return size(root.LeftChild) + 1 + size(root.RightChild) ;
         }
         
-        return NumEle;
+        
+        
+        
     }
 
     
-/*
+
  //Returns true if the binary tree contains an element that 
  //matches the specified element and false otherwise
  //Similar deal as before, we need to traverse the tree with recursion and 
  //return true if it finds what it's looking for
-    public boolean contains(T targetElement){
+    public boolean contains(Object targetElement, Node root){
 
+     if(root.Element.equals(targetElement)){
+         return true;
+     }
+     else if(root.LeftChild != null){
+            if (contains(targetElement, root.LeftChild)){
+         return true;
+     }
+     }
+     else if(root.RightChild != null){
+            return contains(targetElement, root.RightChild);
+     }
+     else{
+         return false;
+         
+     }
      
-   
+     
  }
 
+    /*
+    
      //Returns a reference to the specified element if it is found in this binary tree. 
      //Throws an exception if the specified element is not found.
      public T find(T targBetElement{
 
      }
 
-     * */
+     */
+    
 //Returns a string representation of this binary tree
     public String toString() {
 
-//System.out.println(root.toString());
+
         return root.toString();
     }
 

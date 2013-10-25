@@ -13,11 +13,13 @@ public class Node<T> {
     public Node LeftChild;
     public Node RightChild;
     
+    
     //Returns a string representation of this binary tree
     public String toString(){
         //NOT a recursive call. Actually just a toString
         String str = ""; 
         str += "(";
+        
         
         //Recursive call to go down the left sides and print stuff out
         if(LeftChild != null){
@@ -25,12 +27,14 @@ public class Node<T> {
              
         }
         str += Element.toString();
+        
         //Recursive call to go down the right sides and print stuff out
         if(RightChild != null){
             str += RightChild.toString();
             
         }
         str += ")";
+        
         
         return str;
     }
