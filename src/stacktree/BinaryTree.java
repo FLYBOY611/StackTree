@@ -1,19 +1,14 @@
-
 package stacktree;
-
 
 public class BinaryTree<T>// implements BinaryTreeADT<T>
 {
 
-    
-    
     Node root;
     Node LeftChild;
     Node RightChild;
-    
+
     //We put this in for good luck
     public BinaryTree() {
-    
     }
 
 //Return a reference to the  root element
@@ -41,66 +36,63 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
 //every recursive call in the tree will be named root, so even
 //if we are three levels down it's still called "root"
     public int size(Node root) {
-        
+
         //If the node is empty, return size zero
-        if(root == null){
+        if (root == null) {
             return 0;
-        }
-        //If it's the node and nothing else, its size one.
-        else if(root.LeftChild == null 
-                & root.RightChild == null){
+        } //If it's the node and nothing else, its size one.
+        else if (root.LeftChild == null
+                & root.RightChild == null) {
             return 1;
-        }
-        //Here it gets crazy
+        } //Here it gets crazy
         //Is there a left child? Return 1 if its a leaf or keep going 
         //a level deeper if that node has children. Then we add one to 
         //account for the original root note and check for the right path
-        else{
-            return size(root.LeftChild) + 1 + size(root.RightChild) ;
+        else {
+            return size(root.LeftChild) + 1 + size(root.RightChild);
         }
-        
-        
-        
-        
+
+
+
+
     }
 
-    
+    //Returns true if the binary tree contains an element that 
+    //matches the specified element and false otherwise
+    //Similar deal as before, we need to traverse the tree with recursion and 
+    //return true if it finds what it's looking for
+    public boolean contains(T targetElement, Node currentNode) {
+        
+        
+        if (currentNode.Element.equals(targetElement)) {
+            return true;
+        } 
+        
+        if (currentNode.LeftChild != null) {
+            if (contains(targetElement, currentNode.LeftChild) == true){
+                return true;
+            }           
+        } 
+        
+        if (currentNode.RightChild != null) {
+            return contains(targetElement, currentNode.RightChild);
+        } 
+        return false;
 
- //Returns true if the binary tree contains an element that 
- //matches the specified element and false otherwise
- //Similar deal as before, we need to traverse the tree with recursion and 
- //return true if it finds what it's looking for
-    public boolean contains(Object targetElement, Node root){
 
-     if(root.Element.equals(targetElement)){
-         return true;
-     }
-     else if(root.LeftChild != null){
-            if (contains(targetElement, root.LeftChild)){
-         return true;
-     }
-     }
-     else if(root.RightChild != null){
-            return contains(targetElement, root.RightChild);
-     }
-     else{
-         return false;
-         
-     }
-     
-     
- }
+    }
 
+   
     /*
-    
      //Returns a reference to the specified element if it is found in this binary tree. 
      //Throws an exception if the specified element is not found.
      public T find(T targBetElement{
 
      }
-
-     */
+     
+     
     
+     */
 //Returns a string representation of this binary tree
     public String toString() {
 

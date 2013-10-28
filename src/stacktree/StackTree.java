@@ -23,63 +23,63 @@ import java.util.Scanner;
 public class StackTree {
 
     public static void main(String[] args) {
-        
-    Node rooty = new Node("-");
-    
-    
-    Node lefty = new Node("*");
-    Node righty = new Node(2);
-    
-    Node superLefty = new Node(3);
-    Node superRighty = new Node(6);
-    
-    lefty.LeftChild = superLefty;
-    lefty.RightChild = superRighty;
-    
-    rooty.LeftChild = lefty;
-    rooty.RightChild = righty;
-    
-    //System.out.println(rooty.toString());
-    
-    BinaryTree Cedar = new BinaryTree();
-    Cedar.root = rooty;
-    
-    //Check the toString
-    System.out.println(Cedar.toString());
-    //Check the size
-    System.out.println(Cedar.size(Cedar.root));
-    //Check the contains
-    if(Cedar.contains("2", Cedar.root) == true){
-        System.out.println("true");
-    }
-        /*
-        String entry = "0";
+
+        Node rooty = new Node("-");
 
 
-        //Start the scanner and enter the first line
-        System.out.println("Welcome to the stack program!");
+        Node lefty = new Node("*");
+        Node righty = new Node(2);
 
-        //Keep running so long as an empty expression isn't given
-        while (!entry.equals("")) {
-            System.out.println("\n" + "Please enter in characters, "
-                    + "enter an empty expression to end");
-            Scanner input = new Scanner(System.in);
-            entry = input.nextLine();
-            boolean ErrorFree = true;
+        Node superLefty = new Node(3);
+        Node superRighty = new Node(6);
 
-            //Check for errors in the statement
-            ErrorFree = ErrorCheck(entry);
-            if (ErrorFree == true) {
+        lefty.LeftChild = superLefty;
+        lefty.RightChild = superRighty;
 
-                PostfixAndAnswer GrandFinale = InfixToPost(entry);
+        rooty.LeftChild = lefty;
+        rooty.RightChild = righty;
 
-                System.out.println("The original infix is: " + entry);
-                System.out.println("The postfix is:" + GrandFinale.postfix);
-                System.out.print("The evaluation is " + GrandFinale.answer + "\n");
-            }
+        //System.out.println(rooty.toString());
+
+        BinaryTree Cedar = new BinaryTree();
+        Cedar.root = rooty;
+
+        //Check the toString
+        System.out.println(Cedar.toString());
+        //Check the size
+        System.out.println(Cedar.size(Cedar.root));
+        //Check the contains
+        if (Cedar.contains(6, Cedar.root) == true) {
+            System.out.println("true");
         }
+        /*
+         String entry = "0";
 
-        */
+
+         //Start the scanner and enter the first line
+         System.out.println("Welcome to the stack program!");
+
+         //Keep running so long as an empty expression isn't given
+         while (!entry.equals("")) {
+         System.out.println("\n" + "Please enter in characters, "
+         + "enter an empty expression to end");
+         Scanner input = new Scanner(System.in);
+         entry = input.nextLine();
+         boolean ErrorFree = true;
+
+         //Check for errors in the statement
+         ErrorFree = ErrorCheck(entry);
+         if (ErrorFree == true) {
+
+         PostfixAndAnswer GrandFinale = InfixToPost(entry);
+
+         System.out.println("The original infix is: " + entry);
+         System.out.println("The postfix is:" + GrandFinale.postfix);
+         System.out.print("The evaluation is " + GrandFinale.answer + "\n");
+         }
+         }
+
+         */
     }
 
     public static PostfixAndAnswer InfixToPost(String InfixExpression) {
@@ -173,36 +173,129 @@ public class StackTree {
 //EVALUATION CODE
 
         /*
-        WHAT I NEED TO DO:
-        * Turn the postfix expression into a binary tree
-        * evaluate that binary tree to give the answer
-        * 
-        * Create some sort of ADT and constructor to build Nodes
-        * Nodes will have left and right child along with an elemental value
-        * Leafs will be Nodes that have a null left and right value
-        * The Nodes will be held in a stack???
-        *  
-        * Numbers are always leaves, operators are always nodes
-        * Each node has a maximum of two leaves. Binary tree.
-        * Whenever we hit a operator it means we move up a level? Or not? 
-        * 23*45/-
-        * Becomes       -
-                     *    /
-        *           2 3  4 5
+         WHAT I NEED TO DO:
+         * Turn the postfix expression into a binary tree
+         * evaluate that binary tree to give the answer
+         * 
+         * Create some sort of ADT and constructor to build Nodes
+         * Nodes will have left and right child along with an elemental value
+         * Leafs will be Nodes that have a null left and right value
+         * The Nodes will be held in a stack???
+         *  
+         * Numbers are always leaves, operators are always nodes
+         * Each node has a maximum of two leaves. Binary tree.
+         * Whenever we hit a operator it means we move up a level? Or not? 
+         * 23*45/-
+         * Becomes       -
+         *            *    /
+         *           2 3  4 5
         
-        * To make the tree, the first two numbers become leaves
-        * and the next operator becomes their parent node
-        * if the next character is a operator it becomes a parent
-        * 
-        * The code to determine the number of digits in a number is rock solid
-        * leave it in place for the tree
-        */
-        
-        
-        
+         * To make the tree, the first two numbers become leaves
+         * and the next operator becomes their parent node
+         * if the next character is a operator it becomes a parent
+         * 
+         * The code to determine the number of digits in a number is rock solid
+         * leave it in place for the tree
+         */
+
+ 
+    
+    
+ //PLEASE IGNORE THIS CODE FOR NOW   
+    //Scroll throught the postfix, left to right
+    for (int j = 0; j< postfix.length(); j++) {
+        String tempdigit = "";
+        //If its a digit 
+        if (Character.isDigit(postfix.charAt(j)) == true) {
+            //Check how many digits it is
+            int f = j;
+            while (f < postfix.length()
+                    && Character.isDigit(postfix.charAt(f)) == true) {
+                tempdigit += Character.toString(postfix.charAt(f));
+                j = f;
+                f++;
+            }
+            //Then push it onto the stack
+            Listo.push(tempdigit);
+/*
+            //And make a new node for it
+            //We could use one constructor name to make all the nodes
+            //but I'm chosing to alternate node names for the sake
+            //of building the tree
+            if (flicker == 1) {
+                Node NumNode1 = new Node(tempdigit);
+                flicker = flicker * -1;
+            } else if (flicker == -1) {
+                Node NumNode2 = new Node(tempdigit);
+                flicker = flicker * -1;
+            }  */
+
+
+        }
+
+        /*
+            
+         //If it's an operator
+         if (postfix.charAt(j) == '+' || postfix.charAt(j) == '-'
+         || postfix.charAt(j) == '*' || postfix.charAt(j) == '/') {
+         String OP1 = "";
+         String OP2 = "";
+         int result;
+
+         OP1 = Listo.peek();
+         Listo.pop();
+         OP2 = Listo.peek();
+
+         if (postfix.charAt(j) == '*') {
+         result = Integer.parseInt(OP1) * Integer.parseInt(OP2);
+         Listo.pop();
+         Listo.push(Integer.toString(result));
+         }
+
+         if (postfix.charAt(j) == '/') {
+         result = Integer.parseInt(OP2) / Integer.parseInt(OP1);
+         Listo.pop();
+         Listo.push(Integer.toString(result));
+         }
+
+         if (postfix.charAt(j) == '-') {
+         result = Integer.parseInt(OP2) - Integer.parseInt(OP1);
+         Listo.pop();
+         Listo.push(Integer.toString(result));
+         }
+
+         if (postfix.charAt(j) == '+') {
+         result = Integer.parseInt(OP1) + Integer.parseInt(OP2);
+         Listo.pop();
+         Listo.push(Integer.toString(result));
+         }
+         }  */
+
+    }
+    
+    PostfixAndAnswer output = new PostfixAndAnswer();
+    output.postfix  = postfix;
+    output.answer  = Listo.pop();
+    return output ;
+}
+    
+    
+    
+    
+//End of Main
+    
+    //We will be using this method for building our tree
+    //We pass it the postfix expression
+    //Keep track of the two previous NumNodes that have been built
+    //Keep track of the two previous OpNodes that have been built
+    public void BuildATree(String postfix){
+        int flicker = 1;
+        String previousNodeDetect = null;
+        Node previousOpNode = new Node(null);
+        Node SuperPreviousOpNode = new Node(null);
         
         //Scroll throught the postfix, left to right
-        for (int j = 0; j < postfix.length(); j++) {
+        for (int j = 0; j< postfix.length(); j++) {
             String tempdigit = "";
             //If its a digit 
             if (Character.isDigit(postfix.charAt(j)) == true) {
@@ -214,56 +307,117 @@ public class StackTree {
                     j = f;
                     f++;
                 }
-                //Then push it onto the stack
-                Listo.push(tempdigit);
+                
+                //Then make a node out of it!
+                //Alternate back and forth to keep track of nodes
+                if (flicker == 1) {
+                    Node NumNode1 = new Node(tempdigit);
+                    flicker = flicker * -1;
+                } else if (flicker == -1) {
+                    Node NumNode2 = new Node(tempdigit);
+                    flicker = flicker * -1;                  
+                }
+                //Signal that the previous node was an operator
+                previousNodeDetect = "num";
+            
             }
-            //If it's an operator
-            if (postfix.charAt(j) == '+' || postfix.charAt(j) == '-'
-                    || postfix.charAt(j) == '*' || postfix.charAt(j) == '/') {
-                String OP1 = "";
-                String OP2 = "";
-                int result;
-
-                OP1 = Listo.peek();
-                Listo.pop();
-                OP2 = Listo.peek();
-
-                if (postfix.charAt(j) == '*') {
-                    result = Integer.parseInt(OP1) * Integer.parseInt(OP2);
-                    Listo.pop();
-                    Listo.push(Integer.toString(result));
-                }
-
-                if (postfix.charAt(j) == '/') {
-                    result = Integer.parseInt(OP2) / Integer.parseInt(OP1);
-                    Listo.pop();
-                    Listo.push(Integer.toString(result));
-                }
-
-                if (postfix.charAt(j) == '-') {
-                    result = Integer.parseInt(OP2) - Integer.parseInt(OP1);
-                    Listo.pop();
-                    Listo.push(Integer.toString(result));
-                }
-
-                if (postfix.charAt(j) == '+') {
-                    result = Integer.parseInt(OP1) + Integer.parseInt(OP2);
-                    Listo.pop();
-                    Listo.push(Integer.toString(result));
-                }
-            }
-
+           //If it's an operator
+           if (tempdigit == "+" || tempdigit == "-"
+                || tempdigit == "*" || tempdigit == "/"){       
+               
+               //Make a node
+               Node OpNode = new Node(tempdigit);
+               
+               //If the previous node was an operator
+               //We link the two previous operator nodes together
+               if(previousNodeDetect == "op"){
+                   OpNode.LeftChild = SuperPreviousOpNode;
+                   OpNode.RightChild = previousOpNode;            
+               }
+               //If the previous node was a number
+               //We link the previous operator node and last number node
+               else if(previousNodeDetect == "num"){
+                   OpNode.LeftChild = previousOpNode;
+                     if(flicker == -1){
+                     OpNode.RightChild = NumNode1;
+                     }else{
+                     OpNode.RightChild = NumNode2;
+                 }
+               }
+               //We need to keep track of the two previous operator nodes
+               //If the postfix has two operators in a row it means we need
+               //to link the two previous operator nodes together
+               SuperPreviousOpNode = previousOpNode;
+               previousOpNode = OpNode;
+               
+               //Signal that the previous node was an Operator
+               previousNodeDetect = "op";
+               
+               
+               /*
+               //In our standard case, the OpNode1 just get the 
+               //normal left and right for it's children
+               OpNode.LeftChild = NumNode1;
+               OpNode.RightChild = NumNode2;
+ 
+                  */
+               
+           } 
         }
-
-        PostfixAndAnswer output = new PostfixAndAnswer();
-        output.postfix = postfix;
-        output.answer = Listo.pop();
-        return output;
-
     }
-    //End of Main
+    
+    //We use recursion to evaluate every node the tree has
+    //I need to figure out what type temp is that it can hold num or char
+    public int evaluateNode(Node root) {
+                int result;
+                int Num1;
+                int Num2;
+                char temp;
+                //DECIDE WHAT TYPE WE USE
 
-    public static int getPrecedence(String Oper) {
+                if (root == null) {
+                    result = 0;
+                } else {
+                    temp = (char)root.Element;
+                    //Does this correctly cast?
+
+                    //If it's an operator
+                    if (temp == '+' || temp == '-'
+                            || temp == '*' || temp == '/') {
+
+                        Num1 = evaluateNode(root.LeftChild);
+                        Num2 = evaluateNode(root.RightChild);
+                        result = computeTerm(temp, Num1, Num2);
+                    } else{
+                        //I THINK WE'LL NEED A CAST HERE?
+                        result = (int)temp;
+                    }
+                }
+                return result;
+            }
+    
+    //This is what actually calculates the answers 
+    public int computeTerm(char operator, int Num1, int Num2){
+        int result = 0;
+        
+        if (operator == '+'){
+            result = Num1 + Num2;
+        }
+        else if (operator == '-'){
+            result = Num1 - Num2;
+        }
+        else if (operator == '*'){
+            result = Num1 * Num2;
+        }
+        else if (operator == '/'){
+            result = Num1 / Num2;
+        }
+        
+        return result;
+    }    
+    
+    
+public static int getPrecedence(String Oper) {
         if (Oper.equals("*") || Oper.equals("/")) {
             return 2;
         } else if (Oper.equals("+") || Oper.equals("-")) {
@@ -290,6 +444,8 @@ public class StackTree {
             return SAME_PRECEDENCE;
         }
     }
+    
+
 
 //ERROR CHECKING
     public static boolean ErrorCheck(String ErrorEntry) {
