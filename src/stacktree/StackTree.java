@@ -1,16 +1,17 @@
-/**
- * *****************************************************************************
+/*
+ * ***************************************************************************
  * Module Name: StackTest
- * 
+* 
 * Module Description: Takes an infix expression and converts it to a postfix
- * expression while also outputting the evaluation. Also includes error checking
+ expression while also outputting the evaluation. 
+ * Also includes error checking
  * 
 * @Param:
  * 
 * @Return:
  * 
 *
- ******************************************************************************
+ ****************************************************************************
  */
 package stacktree;
 
@@ -38,8 +39,6 @@ public class StackTree {
 
         rooty.LeftChild = lefty;
         rooty.RightChild = righty;
-
-        //System.out.println(rooty.toString());
 
         BinaryTree Cedar = new BinaryTree();
         Cedar.root = rooty;
@@ -200,7 +199,7 @@ public class StackTree {
 
  
     
-    
+    /*
  //PLEASE IGNORE THIS CODE FOR NOW   
     //Scroll throught the postfix, left to right
     for (int j = 0; j< postfix.length(); j++) {
@@ -217,67 +216,19 @@ public class StackTree {
             }
             //Then push it onto the stack
             Listo.push(tempdigit);
-/*
-            //And make a new node for it
-            //We could use one constructor name to make all the nodes
-            //but I'm chosing to alternate node names for the sake
-            //of building the tree
-            if (flicker == 1) {
-                Node NumNode1 = new Node(tempdigit);
-                flicker = flicker * -1;
-            } else if (flicker == -1) {
-                Node NumNode2 = new Node(tempdigit);
-                flicker = flicker * -1;
-            }  */
-
 
         }
 
-        /*
-            
-         //If it's an operator
-         if (postfix.charAt(j) == '+' || postfix.charAt(j) == '-'
-         || postfix.charAt(j) == '*' || postfix.charAt(j) == '/') {
-         String OP1 = "";
-         String OP2 = "";
-         int result;
-
-         OP1 = Listo.peek();
-         Listo.pop();
-         OP2 = Listo.peek();
-
-         if (postfix.charAt(j) == '*') {
-         result = Integer.parseInt(OP1) * Integer.parseInt(OP2);
-         Listo.pop();
-         Listo.push(Integer.toString(result));
-         }
-
-         if (postfix.charAt(j) == '/') {
-         result = Integer.parseInt(OP2) / Integer.parseInt(OP1);
-         Listo.pop();
-         Listo.push(Integer.toString(result));
-         }
-
-         if (postfix.charAt(j) == '-') {
-         result = Integer.parseInt(OP2) - Integer.parseInt(OP1);
-         Listo.pop();
-         Listo.push(Integer.toString(result));
-         }
-
-         if (postfix.charAt(j) == '+') {
-         result = Integer.parseInt(OP1) + Integer.parseInt(OP2);
-         Listo.pop();
-         Listo.push(Integer.toString(result));
-         }
-         }  */
-
-    }
+    }  */
     
+        //BuildATree(postfix);
+        
     PostfixAndAnswer output = new PostfixAndAnswer();
     output.postfix  = postfix;
     output.answer  = Listo.pop();
     return output ;
 }
+    
     
     
     
@@ -293,6 +244,8 @@ public class StackTree {
         String previousNodeDetect = null;
         Node previousOpNode = new Node(null);
         Node SuperPreviousOpNode = new Node(null);
+        Node NumNode1 = new Node(null);
+        Node NumNode2 = new Node(null);
         
         //Scroll throught the postfix, left to right
         for (int j = 0; j< postfix.length(); j++) {
@@ -311,11 +264,13 @@ public class StackTree {
                 //Then make a node out of it!
                 //Alternate back and forth to keep track of nodes
                 if (flicker == 1) {
-                    Node NumNode1 = new Node(tempdigit);
+                    NumNode1 = new Node(tempdigit);
                     flicker = flicker * -1;
+                    //PUSH IT ONTO THE STACK
                 } else if (flicker == -1) {
-                    Node NumNode2 = new Node(tempdigit);
-                    flicker = flicker * -1;                  
+                    NumNode2 = new Node(tempdigit);
+                    flicker = flicker * -1;
+                    //PUSH IT ONTO THE STACK
                 }
                 //Signal that the previous node was an operator
                 previousNodeDetect = "num";
