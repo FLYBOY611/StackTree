@@ -52,9 +52,6 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
             return size(root.LeftChild) + 1 + size(root.RightChild);
         }
 
-
-
-
     }
 
     //Returns true if the binary tree contains an element that 
@@ -82,17 +79,6 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
 
     }
 
-   
-    /*
-     //Returns a reference to the specified element if it is found in this binary tree. 
-     //Throws an exception if the specified element is not found.
-     public T find(T targBetElement{
-
-     }
-     
-     
-    
-     */
 //Returns a string representation of this binary tree
     public String toString() {
 
@@ -100,31 +86,4 @@ public class BinaryTree<T>// implements BinaryTreeADT<T>
         return root.toString();
     }
 
-    /*
-     //Returns an iterator over the elements of this tree
-     public Iterator<T> iterator(){
-
-     }
-
-     //Returns an iterator that represents an inorder traversal on this binary tree
-     public Iterator<T> iteratorInOrder(){
-
-     }
-
-     //Returns an iterator that represents an postorder traversal on this binary tree
-     public Iterator<T> iteratorPreOrder(){
-
-     }
-
-     //Returns an iterator that represents an PostOrder traversal on this binary tree
-     public Iterator<T> iteratorPostOrder(){
-
-     }
-
-     //Returns an iterator that represents an LevelOrder traversal on this binary tree
-     public Iterator<T> iteratorLevelOrder(){
-
-     }
-     * 
-     * */
 }

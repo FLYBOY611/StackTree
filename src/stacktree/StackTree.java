@@ -1,18 +1,3 @@
-/*
- * **********************************************************************
- * Module Name: StackTest
- * 
- * Module Description: Takes an infix expression and converts it to a postfix
- expression while also outputting the evaluation. 
- * Also includes error checking
- * 
- * @Param:
- * 
- * @Return:
- * 
- *
- ***********************************************************************
- */
 package stacktree;
 
 import java.util.Scanner;
@@ -21,6 +6,8 @@ import java.util.Scanner;
  *
  * @author Richard
  */
+
+//IT DETECTS OPERATOR BEFORE PAREN MISMATCH
 public class StackTree {
 
     public static void main(String[] args) {
@@ -52,12 +39,13 @@ public class StackTree {
                 System.out.println("The postfix is:" + FinalPostfix);
                 Node temp = BuildATree(FinalPostfix);
                 System.out.println(temp.toString());
-                System.out.print("The evaluation is " + evaluateNode(BuildATree(FinalPostfix)) + "\n");
+                System.out.print("The evaluation is " + 
+                        evaluateNode(BuildATree(FinalPostfix)) + "\n");
             }
         }
 
 
-    }
+    }//End of Main
 
     public static String InfixToPost(String InfixExpression) {
 
@@ -101,7 +89,8 @@ public class StackTree {
 
             //If its an Operator
             if (WorkingEntry.charAt(i) == '+' || WorkingEntry.charAt(i) == '-'
-                    || WorkingEntry.charAt(i) == '*' || WorkingEntry.charAt(i) == '/') {
+                    || WorkingEntry.charAt(i) == '*' || 
+                    WorkingEntry.charAt(i) == '/') {
                 //Push to the stack if the stack is empty
                 //OR if the stack item is a left paren                
                 if (Listo.isEmpty() == true || Listo.peek().equals("(")) {
@@ -147,48 +136,19 @@ public class StackTree {
             postfix = postfix + " " + Listo.pop();
         }
 
-//EVALUATION CODE
-
-        /*
-         WHAT I NEED TO DO:
-         * Turn the postfix expression into a binary tree
-         * evaluate that binary tree to give the answer
-         * 
-         * Create some sort of ADT and constructor to build Nodes
-         * Nodes will have left and right child along with an elemental value
-         * Leafs will be Nodes that have a null left and right value
-         * The Nodes will be held in a stack???
-         *  
-         * Numbers are always leaves, operators are always nodes
-         * Each node has a maximum of two leaves. Binary tree.
-         * Whenever we hit a operator it means we move up a level? Or not? 
-         * 23*45/-
-         * Becomes       -
-         *            *    /
-         *           2 3  4 5
-        
-         * To make the tree, the first two numbers become leaves
-         * and the next operator becomes their parent node
-         * if the next character is a operator it becomes a parent
-         * 
-         * The code to determine the number of digits in a number is rock solid
-         * leave it in place for the tree
-         */
-
-
 
 
         String output = postfix;
         return output;
-    }
+    } 
+//EVALUATION CODE
 
-//End of Main
-    //HOW WE WILL DO THIS
+    //HOW THIS WORKS
     //
     //If it is a number, turn it into a leaf node and push it on the stack.
-    //If it is an operator, pop two items from the stack, construct an operator 
-    //node with those children, and push all of it onto the stack.
-    //At the end you have exactly one tree on the stack
+    //If it is an operator, pop two items from the stack, construct  
+    //a mini tree with those children, and push all of it onto the stack.
+    //At the end you have exactly one "node" on the stack which is your tree
     public static Node BuildATree(String postfix) {
         Node NumNode1 = new Node(null);
         ListStack<Node> treebuild = new ListStack<Node>();
@@ -214,6 +174,7 @@ public class StackTree {
 
 
             }
+            //Otherwise, we're working with an operator
             tempdigit = Character.toString(postfix.charAt(j));
             
             //If it's an operator
@@ -222,33 +183,11 @@ public class StackTree {
 
                 //Make a new node, 
                 //Pop two elements from the stack and attach them
-                //Push all of that back onto the stack
-                Node OpNode = new Node(tempdigit);
-                //DOUBLE CHECK THIS LATER            
+                Node OpNode = new Node(tempdigit);           
                 OpNode.RightChild = treebuild.pop();
                 OpNode.LeftChild = treebuild.pop();
-                
+                //Push the new mini tree back onto the stack                
                 treebuild.push(OpNode);
-                /* 
-               
-                 //If the previous node was an operator
-                 //We link the two previous operator nodes together
-                 if(previousNodeDetect == "op"){
-                 OpNode.LeftChild = SuperPreviousOpNode;
-                 OpNode.RightChild = previousOpNode;            
-                 }
-                 //If the previous node was a number
-                 //We link the previous operator node and last number node
-                 else if(previousNodeDetect == "num"){
-                 OpNode.LeftChild = previousOpNode;
-                 if(flicker == -1){
-                 OpNode.RightChild = NumNode1;
-                 }else{
-                 OpNode.RightChild = NumNode2;
-                 }
-                 }
-               
-                 */
 
             }
         }
@@ -258,19 +197,17 @@ public class StackTree {
     }
 
     //We use recursion to evaluate every node the tree has
-    //I need to figure out what type temp is that it can hold num or char
     public static int evaluateNode(Node root) {
         int result;
         int Num1;
         int Num2;
         String temp;
-        //DECIDE WHAT TYPE WE USE
 
         if (root == null) {
             result = 0;
         } else {
             temp = root.Element.toString();
-            //Does this correctly cast?
+            
 
             //If it's an operator
             if (temp.equals("+") || temp.equals("-")
@@ -280,14 +217,13 @@ public class StackTree {
                 Num2 = evaluateNode(root.RightChild);
                 result = computeTerm(temp, Num1, Num2);
             } else {
-                //I THINK WE'LL NEED A CAST HERE?
                 result = Integer.parseInt(temp);
             }
         }
         return result;
     }
 
-    //This is what actually calculates the answers 
+    //This is called by the evaluation to do the acutal math 
     public static int computeTerm(String operator, int Num1, int Num2) {
         int result = 0;
 
@@ -304,6 +240,7 @@ public class StackTree {
         return result;
     }
 
+    //Find the operator precedence for making the postfix
     public static int getPrecedence(String Oper) {
         if (Oper.equals("*") || Oper.equals("/")) {
             return 2;
@@ -317,8 +254,8 @@ public class StackTree {
     public static int OP_TWO_TAKES_PRECEDENCE = 1;
     public static int SAME_PRECEDENCE = 0;
 
+    //Compare the operator precedence for the postfix
     public static int comparePrecedence(String Oper1, String Oper2) {
-
         int operOnePrec = getPrecedence(Oper1);
         int operTwoPrec = getPrecedence(Oper2);
 
@@ -375,7 +312,8 @@ public class StackTree {
             if ((i < WorkingEntry.length())
                     && (WorkingEntry.charAt(i) == ')')) {
                 //and make sure a number doesn't directly follow a right paren        
-                if ((i + 1 < WorkingEntry.length()) && (Character.isDigit(WorkingEntry.charAt(i + 1)) == true)) {
+                if ((i + 1 < WorkingEntry.length()) && 
+                     (Character.isDigit(WorkingEntry.charAt(i + 1)) == true)) {
                     z = i;
                     OpParen = true;
                 }
@@ -444,7 +382,8 @@ public class StackTree {
 
             //Operator next to parenthesis detected
             if (OpParen == true) {
-                System.out.println("\n" + "ERROR!! Operator and parenthesis detected");
+                System.out.println("\n" + 
+                        "ERROR!! Operator and parenthesis detected");
                 System.out.println("At this point");
                 System.out.println(WorkingEntry);
                 while (z > 0) {
@@ -457,7 +396,8 @@ public class StackTree {
 
             //Two operators in succesion
             if (comp1 == "Operator" && comp2 == "Operator") {
-                System.out.println("\n" + "ERROR!! Two Operators in a row detected!");
+                System.out.println("\n" + 
+                        "ERROR!! Two Operators in a row detected!");
                 System.out.println("At this point");
                 System.out.println(WorkingEntry);
                 while (j > 0) {
@@ -470,7 +410,8 @@ public class StackTree {
 
             //Two operands in succession 
             if (comp1 == "Number" && comp2 == "Number") {
-                System.out.println("\n" + "ERROR!! Two Numbers in a row detected!");
+                System.out.println("\n" + 
+                        "ERROR!! Two Numbers in a row detected!");
                 System.out.println("At this point");
                 System.out.println(WorkingEntry);
                 while (j > 0) {
