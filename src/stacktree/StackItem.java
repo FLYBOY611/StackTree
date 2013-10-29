@@ -18,6 +18,7 @@ package stacktree;
 public class StackItem {
     public String x;
     public StackItem next;
+    //public Node y;
     
     public StackItem(String init_x){
         x = init_x;

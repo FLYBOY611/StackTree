@@ -235,17 +235,20 @@ public class StackTree {
     
 //End of Main
     
-    //We will be using this method for building our tree
-    //We pass it the postfix expression
-    //Keep track of the two previous NumNodes that have been built
-    //Keep track of the two previous OpNodes that have been built
-    public void BuildATree(String postfix){
+    //HOW WE WILL DO THIS
+    //
+    //If it is a number, turn it into a leaf node and push it on the stack.
+    //If it is an operator, pop two items from the stack, construct an operator 
+    //node with those children, and push all of it onto the stack.
+    //At the end you have exactly one tree on the stack
+    public Node BuildATree(String postfix){
         int flicker = 1;
         String previousNodeDetect = null;
         Node previousOpNode = new Node(null);
         Node SuperPreviousOpNode = new Node(null);
         Node NumNode1 = new Node(null);
         Node NumNode2 = new Node(null);
+        StackForTrees treebuild = new StackForTrees();
         
         //Scroll throught the postfix, left to right
         for (int j = 0; j< postfix.length(); j++) {
@@ -261,17 +264,11 @@ public class StackTree {
                     f++;
                 }
                 
-                //Then make a node out of it!
-                //Alternate back and forth to keep track of nodes
-                if (flicker == 1) {
+                    //Then make a node out of it!
+                    //and push it to the stack     
                     NumNode1 = new Node(tempdigit);
-                    flicker = flicker * -1;
-                    //PUSH IT ONTO THE STACK
-                } else if (flicker == -1) {
-                    NumNode2 = new Node(tempdigit);
-                    flicker = flicker * -1;
-                    //PUSH IT ONTO THE STACK
-                }
+                    treebuild.push(NumNode1);
+                 
                 //Signal that the previous node was an operator
                 previousNodeDetect = "num";
             
@@ -280,8 +277,14 @@ public class StackTree {
            if (tempdigit == "+" || tempdigit == "-"
                 || tempdigit == "*" || tempdigit == "/"){       
                
-               //Make a node
-               Node OpNode = new Node(tempdigit);
+               //Make a new node, 
+               //Pop two elements from the stack and attach them
+               //Push all of that back onto the stack
+               Node OpNode = new Node(tempdigit);             
+               OpNode.LeftChild = treebuild.pop();
+               OpNode.RightChild = treebuild.pop();
+               treebuild.push(OpNode);
+              /* 
                
                //If the previous node was an operator
                //We link the two previous operator nodes together
@@ -299,26 +302,14 @@ public class StackTree {
                      OpNode.RightChild = NumNode2;
                  }
                }
-               //We need to keep track of the two previous operator nodes
-               //If the postfix has two operators in a row it means we need
-               //to link the two previous operator nodes together
-               SuperPreviousOpNode = previousOpNode;
-               previousOpNode = OpNode;
                
-               //Signal that the previous node was an Operator
-               previousNodeDetect = "op";
-               
-               
-               /*
-               //In our standard case, the OpNode1 just get the 
-               //normal left and right for it's children
-               OpNode.LeftChild = NumNode1;
-               OpNode.RightChild = NumNode2;
- 
-                  */
-               
+               */
+         
            } 
         }
+        //At the end of the process we are left with one "node"
+        //on the stack which is our entire tree
+        return treebuild.pop();
     }
     
     //We use recursion to evaluate every node the tree has
