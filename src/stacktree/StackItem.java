@@ -15,15 +15,15 @@ package stacktree;
  *
  * @author Richard
  */
-public class StackItem {
-    public String x;
+public class StackItem<T> {
+    public T x;
     public StackItem next;
-    //public Node y;
     
-    public StackItem(String init_x){
+    
+    public StackItem(T init_x){
         x = init_x;
     }
-    public StackItem(String init_x, StackItem init_next){
+    public StackItem(T init_x, StackItem init_next){
         x = init_x;
         next = init_next;
     }

@@ -1,17 +1,17 @@
 /*
- * ***************************************************************************
+ * **********************************************************************
  * Module Name: StackTest
-* 
-* Module Description: Takes an infix expression and converts it to a postfix
+ * 
+ * Module Description: Takes an infix expression and converts it to a postfix
  expression while also outputting the evaluation. 
  * Also includes error checking
  * 
-* @Param:
+ * @Param:
  * 
-* @Return:
+ * @Return:
  * 
-*
- ****************************************************************************
+ *
+ ***********************************************************************
  */
 package stacktree;
 
@@ -25,65 +25,43 @@ public class StackTree {
 
     public static void main(String[] args) {
 
-        Node rooty = new Node("-");
+        String entry = "0";
 
 
-        Node lefty = new Node("*");
-        Node righty = new Node(2);
+        //Start the scanner and enter the first line
+        System.out.println("Welcome to the stack program!");
 
-        Node superLefty = new Node(3);
-        Node superRighty = new Node(6);
+        //Keep running so long as an empty expression isn't given
+        while (!entry.equals("")) {
+            System.out.println("\n" + "Please enter in characters, "
+                    + "enter an empty expression to end");
+            Scanner input = new Scanner(System.in);
+            entry = input.nextLine();
+            if(entry.equals("")){
+                break;
+            }
+            boolean ErrorFree = true;
 
-        lefty.LeftChild = superLefty;
-        lefty.RightChild = superRighty;
+            //Check for errors in the statement
+            ErrorFree = ErrorCheck(entry);
+            if (ErrorFree == true) {
 
-        rooty.LeftChild = lefty;
-        rooty.RightChild = righty;
+                String FinalPostfix = InfixToPost(entry);
 
-        BinaryTree Cedar = new BinaryTree();
-        Cedar.root = rooty;
-
-        //Check the toString
-        System.out.println(Cedar.toString());
-        //Check the size
-        System.out.println(Cedar.size(Cedar.root));
-        //Check the contains
-        if (Cedar.contains(6, Cedar.root) == true) {
-            System.out.println("true");
+                System.out.println("The original infix is: " + entry);
+                System.out.println("The postfix is:" + FinalPostfix);
+                Node temp = BuildATree(FinalPostfix);
+                System.out.println(temp.toString());
+                System.out.print("The evaluation is " + evaluateNode(BuildATree(FinalPostfix)) + "\n");
+            }
         }
-        /*
-         String entry = "0";
 
 
-         //Start the scanner and enter the first line
-         System.out.println("Welcome to the stack program!");
-
-         //Keep running so long as an empty expression isn't given
-         while (!entry.equals("")) {
-         System.out.println("\n" + "Please enter in characters, "
-         + "enter an empty expression to end");
-         Scanner input = new Scanner(System.in);
-         entry = input.nextLine();
-         boolean ErrorFree = true;
-
-         //Check for errors in the statement
-         ErrorFree = ErrorCheck(entry);
-         if (ErrorFree == true) {
-
-         PostfixAndAnswer GrandFinale = InfixToPost(entry);
-
-         System.out.println("The original infix is: " + entry);
-         System.out.println("The postfix is:" + GrandFinale.postfix);
-         System.out.print("The evaluation is " + GrandFinale.answer + "\n");
-         }
-         }
-
-         */
     }
 
-    public static PostfixAndAnswer InfixToPost(String InfixExpression) {
+    public static String InfixToPost(String InfixExpression) {
 
-        ListStack Listo = new ListStack();
+        ListStack<String> Listo = new ListStack<String>();
         String WorkingEntry = "";
         String postfix = "";
 
@@ -197,61 +175,26 @@ public class StackTree {
          * leave it in place for the tree
          */
 
- 
-    
-    /*
- //PLEASE IGNORE THIS CODE FOR NOW   
-    //Scroll throught the postfix, left to right
-    for (int j = 0; j< postfix.length(); j++) {
-        String tempdigit = "";
-        //If its a digit 
-        if (Character.isDigit(postfix.charAt(j)) == true) {
-            //Check how many digits it is
-            int f = j;
-            while (f < postfix.length()
-                    && Character.isDigit(postfix.charAt(f)) == true) {
-                tempdigit += Character.toString(postfix.charAt(f));
-                j = f;
-                f++;
-            }
-            //Then push it onto the stack
-            Listo.push(tempdigit);
 
-        }
 
-    }  */
-    
-        //BuildATree(postfix);
-        
-    PostfixAndAnswer output = new PostfixAndAnswer();
-    output.postfix  = postfix;
-    output.answer  = Listo.pop();
-    return output ;
-}
-    
-    
-    
-    
-    
+
+        String output = postfix;
+        return output;
+    }
+
 //End of Main
-    
     //HOW WE WILL DO THIS
     //
     //If it is a number, turn it into a leaf node and push it on the stack.
     //If it is an operator, pop two items from the stack, construct an operator 
     //node with those children, and push all of it onto the stack.
     //At the end you have exactly one tree on the stack
-    public Node BuildATree(String postfix){
-        int flicker = 1;
-        String previousNodeDetect = null;
-        Node previousOpNode = new Node(null);
-        Node SuperPreviousOpNode = new Node(null);
+    public static Node BuildATree(String postfix) {
         Node NumNode1 = new Node(null);
-        Node NumNode2 = new Node(null);
-        StackForTrees treebuild = new StackForTrees();
-        
+        ListStack<Node> treebuild = new ListStack<Node>();
+
         //Scroll throught the postfix, left to right
-        for (int j = 0; j< postfix.length(); j++) {
+        for (int j = 0; j < postfix.length(); j++) {
             String tempdigit = "";
             //If its a digit 
             if (Character.isDigit(postfix.charAt(j)) == true) {
@@ -263,107 +206,105 @@ public class StackTree {
                     j = f;
                     f++;
                 }
-                
-                    //Then make a node out of it!
-                    //and push it to the stack     
-                    NumNode1 = new Node(tempdigit);
-                    treebuild.push(NumNode1);
-                 
-                //Signal that the previous node was an operator
-                previousNodeDetect = "num";
-            
+
+                //Then make a node out of it!
+                //and push it to the stack     
+                NumNode1 = new Node(tempdigit);
+                treebuild.push(NumNode1);
+
+
             }
-           //If it's an operator
-           if (tempdigit == "+" || tempdigit == "-"
-                || tempdigit == "*" || tempdigit == "/"){       
+            tempdigit = Character.toString(postfix.charAt(j));
+            
+            //If it's an operator
+            if (tempdigit.equals("+") || tempdigit.equals("-")
+                    || tempdigit.equals("*") || tempdigit.equals("/")) {
+
+                //Make a new node, 
+                //Pop two elements from the stack and attach them
+                //Push all of that back onto the stack
+                Node OpNode = new Node(tempdigit);
+                //DOUBLE CHECK THIS LATER            
+                OpNode.RightChild = treebuild.pop();
+                OpNode.LeftChild = treebuild.pop();
+                
+                treebuild.push(OpNode);
+                /* 
                
-               //Make a new node, 
-               //Pop two elements from the stack and attach them
-               //Push all of that back onto the stack
-               Node OpNode = new Node(tempdigit);             
-               OpNode.LeftChild = treebuild.pop();
-               OpNode.RightChild = treebuild.pop();
-               treebuild.push(OpNode);
-              /* 
-               
-               //If the previous node was an operator
-               //We link the two previous operator nodes together
-               if(previousNodeDetect == "op"){
-                   OpNode.LeftChild = SuperPreviousOpNode;
-                   OpNode.RightChild = previousOpNode;            
-               }
-               //If the previous node was a number
-               //We link the previous operator node and last number node
-               else if(previousNodeDetect == "num"){
-                   OpNode.LeftChild = previousOpNode;
-                     if(flicker == -1){
-                     OpNode.RightChild = NumNode1;
-                     }else{
-                     OpNode.RightChild = NumNode2;
+                 //If the previous node was an operator
+                 //We link the two previous operator nodes together
+                 if(previousNodeDetect == "op"){
+                 OpNode.LeftChild = SuperPreviousOpNode;
+                 OpNode.RightChild = previousOpNode;            
                  }
-               }
+                 //If the previous node was a number
+                 //We link the previous operator node and last number node
+                 else if(previousNodeDetect == "num"){
+                 OpNode.LeftChild = previousOpNode;
+                 if(flicker == -1){
+                 OpNode.RightChild = NumNode1;
+                 }else{
+                 OpNode.RightChild = NumNode2;
+                 }
+                 }
                
-               */
-         
-           } 
+                 */
+
+            }
         }
         //At the end of the process we are left with one "node"
         //on the stack which is our entire tree
         return treebuild.pop();
     }
-    
+
     //We use recursion to evaluate every node the tree has
     //I need to figure out what type temp is that it can hold num or char
-    public int evaluateNode(Node root) {
-                int result;
-                int Num1;
-                int Num2;
-                char temp;
-                //DECIDE WHAT TYPE WE USE
+    public static int evaluateNode(Node root) {
+        int result;
+        int Num1;
+        int Num2;
+        String temp;
+        //DECIDE WHAT TYPE WE USE
 
-                if (root == null) {
-                    result = 0;
-                } else {
-                    temp = (char)root.Element;
-                    //Does this correctly cast?
+        if (root == null) {
+            result = 0;
+        } else {
+            temp = root.Element.toString();
+            //Does this correctly cast?
 
-                    //If it's an operator
-                    if (temp == '+' || temp == '-'
-                            || temp == '*' || temp == '/') {
+            //If it's an operator
+            if (temp.equals("+") || temp.equals("-")
+                    || temp.equals("*") || temp.equals("/")) {
 
-                        Num1 = evaluateNode(root.LeftChild);
-                        Num2 = evaluateNode(root.RightChild);
-                        result = computeTerm(temp, Num1, Num2);
-                    } else{
-                        //I THINK WE'LL NEED A CAST HERE?
-                        result = (int)temp;
-                    }
-                }
-                return result;
+                Num1 = evaluateNode(root.LeftChild);
+                Num2 = evaluateNode(root.RightChild);
+                result = computeTerm(temp, Num1, Num2);
+            } else {
+                //I THINK WE'LL NEED A CAST HERE?
+                result = Integer.parseInt(temp);
             }
-    
+        }
+        return result;
+    }
+
     //This is what actually calculates the answers 
-    public int computeTerm(char operator, int Num1, int Num2){
+    public static int computeTerm(String operator, int Num1, int Num2) {
         int result = 0;
-        
-        if (operator == '+'){
+
+        if (operator.equals("+")) {
             result = Num1 + Num2;
-        }
-        else if (operator == '-'){
+        } else if (operator.equals("-")) {
             result = Num1 - Num2;
-        }
-        else if (operator == '*'){
+        } else if (operator.equals("*")) {
             result = Num1 * Num2;
-        }
-        else if (operator == '/'){
+        } else if (operator.equals("/")) {
             result = Num1 / Num2;
         }
-        
+
         return result;
-    }    
-    
-    
-public static int getPrecedence(String Oper) {
+    }
+
+    public static int getPrecedence(String Oper) {
         if (Oper.equals("*") || Oper.equals("/")) {
             return 2;
         } else if (Oper.equals("+") || Oper.equals("-")) {
@@ -390,8 +331,6 @@ public static int getPrecedence(String Oper) {
             return SAME_PRECEDENCE;
         }
     }
-    
-
 
 //ERROR CHECKING
     public static boolean ErrorCheck(String ErrorEntry) {
